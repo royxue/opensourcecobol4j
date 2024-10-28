@@ -87,7 +87,7 @@ extern unsigned char cb_default_byte;
 static int index_read_flag = 0;
 
 static struct label_list {
-  struct label_list *next;
+  // struct label_list *next;
   int id;
   int call_num;
 } *label_cache = NULL;
@@ -1416,10 +1416,8 @@ static void joutput_param(cb_tree x, int id) {
   cb_tree l;
   struct literal_list *ll;
   int n;
-  int extrefs;
   int sav_stack_id;
   char fname[12];
-  COB_UNUSED(extrefs);
 
   param_id = id;
 
@@ -1506,7 +1504,6 @@ static void joutput_param(cb_tree x, int id) {
     break;
   case CB_TAG_REFERENCE:
     r = CB_REFERENCE(x);
-    extrefs = 0;
     if (r->check) {
       joutput("(new GetAbstractCobolField() {");
       joutput_newline();
@@ -1578,7 +1575,6 @@ static void joutput_param(cb_tree x, int id) {
     }
     f = CB_FIELD(r->value);
     if (f->redefines && f->redefines->flag_external) {
-      extrefs = 1;
       f->flag_item_external = 1;
       f->flag_external = 1;
     }
@@ -1587,12 +1583,10 @@ static void joutput_param(cb_tree x, int id) {
     }
     for (pechk = f->parent; pechk; pechk = pechk->parent) {
       if (pechk->flag_external) {
-        extrefs = 1;
         f->flag_item_external = 1;
         break;
       }
       if (pechk->redefines && pechk->redefines->flag_external) {
-        extrefs = 1;
         f->flag_item_external = 1;
         f->flag_external = 1;
         break;
@@ -1979,7 +1973,7 @@ static void joutput_cond(cb_tree x, int save_flag) {
     joutput_indent("public int run(){");
     joutput_indent_level += 2;
     for (; x; x = CB_CHAIN(x)) {
-      //最後の文ならreturn文を書く
+      // 最後の文ならreturn文を書く
       if (!CB_CHAIN(x)) {
         joutput_indent("return ");
       }
@@ -6236,20 +6230,20 @@ void codegen(struct cb_program *prog, const int nested, char **program_id_list,
 
   /* Program local stuff */
 
-  //コンストラクタの実装コードを出力
-  //メンバ変数の初期化を行う
+  // コンストラクタの実装コードを出力
+  // メンバ変数の初期化を行う
   joutput_line("public %s()", prog->program_id);
   joutput_line("{");
   joutput_line("  init();");
   joutput_line("}");
   joutput_newline();
 
-  //メンバ変数の初期化メソッドを出力
+  // メンバ変数の初期化メソッドを出力
   create_sorted_data_storage_cache();
   joutput_init_method(prog);
   joutput_newline();
 
-  //メンバ変数の出力
+  // メンバ変数の出力
   joutput_declare_member_variables(prog, prog->parameter_list);
   joutput("\n");
 
