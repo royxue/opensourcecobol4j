@@ -762,7 +762,7 @@ static int joutput_field_storage(struct cb_field *f, struct cb_field *top) {
     free(base_name);
     return flag_call_parameter;
   } else if (cb_flag_short_variable) {
-    joutput("b_");
+    joutput(CB_PREFIX_BASE);
     for (p = f->name; *p != '\0'; ++p) {
       if (*p == '-') {
         joutput("_");
@@ -770,8 +770,11 @@ static int joutput_field_storage(struct cb_field *f, struct cb_field *top) {
         joutput("%c", *p);
       }
     }
+  } else if (cb_flag_serial_variable) {
+    char *base_name = get_java_identifier_base(f);
+    joutput(base_name);
   } else {
-    joutput("b_");
+    joutput(CB_PREFIX_BASE);
     struct cb_field *field = f;
     int flag_first_iteration = 1;
     while (field) {
