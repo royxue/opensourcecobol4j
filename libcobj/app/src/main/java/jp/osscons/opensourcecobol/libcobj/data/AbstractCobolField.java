@@ -414,10 +414,10 @@ public abstract class AbstractCobolField {
     }
 
     /**
-     * TODO: 準備中
-     *
-     * @param n TODO: 準備中
-     * @return TODO: 準備中
+     * 整数値との比較を行う
+     * @deprecated 代わりにcmpIntegerを使用してください
+     * @param n 比較対象の整数値
+     * @return 保持する数値データの比較を行い,this&lt;nなら負の値,this==nなら0,this&gt;nなら正の値
      */
     public int cmpInt(int n) {
         CobolDecimal d1 = this.getDecimal();
@@ -427,30 +427,51 @@ public abstract class AbstractCobolField {
     }
 
     /**
-     * TODO: 準備中
-     *
-     * @param n TODO: 準備中
-     * @return TODO: 準備中
+     * 整数値との比較を行う
+     * @deprecated 代わりにcmpIntegerを使用してください
+     * @param n 比較対象の整数値
+     * @return 保持する数値データの比較を行い,this&lt;nなら負の値,this==nなら0,this&gt;nなら正の値
      */
     public int cmpInt(long n) {
         return this.cmpInt((int) n);
     }
 
     /**
-     * TODO: 準備中
-     *
-     * @param n TODO: 準備中
-     * @return TODO: 準備中
+     * 整数値との比較を行う
+     * @param n 比較対象の整数値
+     * @return 保持する数値データの比較を行い,this&lt;nなら負の値,this==nなら0,this&gt;nなら正の値
+     */
+    public int cmpInteger(long n) {
+        CobolDecimal d1 = this.getDecimal();
+        CobolDecimal d2 = new CobolDecimal(n);
+        d2.setScale(0);
+        return d1.compareTo(d2);
+    }
+
+    /**
+     * 整数値との比較を行う
+     * @param n 比較対象の整数値
+     * @return 保持する数値データの比較を行い,this&lt;nなら負の値,this==nなら0,this&gt;nなら正の値
+     */
+    public int cmpInteger(int n) {
+        return this.cmpInteger((long) n);
+    }
+
+    /**
+     * 整数値との比較を行う
+     * @deprecated 代わりにcmpIntegerを使用してください
+     * @param n 比較対象の整数値
+     * @return 保持する数値データの比較を行い,this&lt;nなら負の値,this==nなら0,this&gt;nなら正の値
      */
     public int cmpUint(int n) {
         return this.cmpInt(n);
     }
 
     /**
-     * TODO: 準備中
-     *
-     * @param n TODO: 準備中
-     * @return TODO: 準備中
+     * 整数値との比較を行う
+     * @deprecated 代わりにcmpIntegerを使用してください
+     * @param n 比較対象の整数値
+     * @return 保持する数値データの比較を行い,this&lt;nなら負の値,this==nなら0,this&gt;nなら正の値
      */
     public int cmpUint(long n) {
         return this.cmpUint((int) n);
